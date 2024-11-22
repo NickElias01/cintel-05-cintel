@@ -88,14 +88,14 @@ def reactive_calc_combined():
 # Call the ui.page_opts() function
 # Set title to a string in quotes that will appear at the top
 # Set fillable to True to use the whole page width for the UI
-ui.page_opts(title="PyShiny Express: Live Data Example", fillable=True)
+ui.page_opts(title="Elias Analytics: PyShiny Live Data", fillable=True)
 
 # Sidebar is typically used for user interaction/information
 # Note the with statement to create the sidebar followed by a colon
 # Everything in the sidebar is indented consistently
 with ui.sidebar(open="open"):
 
-    ui.h2("Antarctic Explorer", class_="text-center")
+    ui.h2("Temp Readings in Antarctica", class_="text-center")
     ui.p(
         "A demonstration of real-time temperature readings in Antarctica.",
         class_="text-center",
@@ -103,8 +103,8 @@ with ui.sidebar(open="open"):
     ui.hr()
     ui.h6("Links:")
     ui.a(
-        "GitHub Source",
-        href="https://github.com/denisecase/cintel-05-cintel",
+        "GitHub",
+        href="https://github.com/NickElias01/cintel-05-cintel",
         target="_blank",
     )
     ui.a(
