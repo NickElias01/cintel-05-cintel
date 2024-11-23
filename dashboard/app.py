@@ -183,30 +183,50 @@ with ui.card(full_screen=True):
         _, df, _ = reactive_calc_combined()
         return df[["timestamp", "temp", "temp_fahrenheit", "temp_kelvin", "barometric_pressure_hpa"]]
 
+
 # Card displaying the latest temperature readings with a regression line
 with ui.card():
     ui.card_header("Latest Temperature Readings w/ Regression Line")
 
     @render_plotly
     def display_plot():
-        """Display temperature readings over time with a regression line"""
-        _, df, _ = reactive_calc_combined()
+        # Fetch from the reactive calc function
+        deque_snapshot, df, latest_dictionary_entry = reactive_calc_combined()
 
+        # Ensure the DataFrame is not empty before plotting
         if not df.empty:
+            # Convert the 'timestamp' column to datetime for better plotting
             df["timestamp"] = pd.to_datetime(df["timestamp"])
 
+            # Create scatter plot for readings
+            # pass in the df, the name of the x column, the name of the y column,
+            # and more
+        
             fig = px.scatter(
-                df,
-                x="timestamp",
-                y="temp",
-                title="Temperature Readings (°C) with Regression Line",
-                labels={"temp": "Temperature (°C)", "timestamp": "Time"},
-                color_discrete_sequence=["blue"],
-            )
+            df,
+            x="timestamp",
+            y="temp",
+            title="Temperature Readings with Regression Line",
+            labels={"temp": "Temperature (°C)", "timestamp": "Time"},
+            color_discrete_sequence=["blue"] )
+            
+            # Linear regression - we need to get a list of the
+            # Independent variable x values (time) and the
+            # Dependent variable y values (temp)
+            # then, it's pretty easy using scipy.stats.linregress()
 
-            # Add a regression line
-            x_vals = range(len(df))
+            # For x let's generate a sequence of integers from 0 to len(df)
+            sequence = range(len(df))
+            x_vals = list(sequence)
             y_vals = df["temp"]
-            slope, intercept, _, _, _ = stats.linregress(x_vals, y_vals)
+
+            slope, intercept, r_value, p_value, std_err = stats.linregress(x_vals, y_vals)
+            df['best_fit_line'] = [slope * x + intercept for x in x_vals]
+
+            # Add the regression line to the figure
+            fig.add_scatter(x=df["timestamp"], y=df['best_fit_line'], mode='lines', name='Regression Line')
+
+            # Update layout as needed to customize further
+            fig.update_layout(xaxis_title="Time",yaxis_title="Temperature (°C)")
 
         return fig
