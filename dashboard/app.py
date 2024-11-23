@@ -114,7 +114,7 @@ with ui.sidebar(open="open"):
     ui.hr()
     ui.h6("Links:")
     ui.a("GitHub", href="https://github.com/NickElias01/cintel-05-cintel", target="_blank")
-    ui.a("GitHub App", href="https://denisecase.github.io/cintel-05-cintel/", target="_blank")
+    ui.a("GitHub App", href="https://nickelias01.github.io/cintel-05-cintel/", target="_blank")
     ui.a("PyShiny", href="https://shiny.posit.co/py/", target="_blank")
     ui.a("PyShiny Express", href="https://shiny.posit.co/blog/posts/shiny-express/", target="_blank")
 
